@@ -24,7 +24,16 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza />
+      <p>
+        Authentic Italian cuisine. 6 creative dishes to choose from. All from
+        our stone oven, all organic, all delicious.
+      </p>
+
+      <ul className="pizzas">
+        {pizzaData.map((pizza) => (
+          <Pizza data={pizza} key={pizza.name} />
+        ))}
+      </ul>
     </main>
   );
 }
@@ -35,30 +44,29 @@ function Footer() {
 
   const isOpen = open <= time && time <= close;
   const storeState = isOpen
-    ? "We're open currently!"
-    : "We're close currently!";
+    ? "We're currently open!"
+    : "We're currently close!";
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. {storeState}
+      <div className="order">
+        <p>{storeState}</p>
+        <button className="btn">Order</button>
+      </div>
     </footer>
   );
 }
 
-function Pizza() {
+function Pizza(props) {
   return (
-    <div className="pizzas">
-      {pizzaData.map((data) => (
-        <div className="pizza">
-          <div>
-            <img src={data.photoName} alt="pizza" />
-            <h3>{data.name}</h3>
-            <p>{data.ingredients}</p>
-            <span>{data.price}</span>
-          </div>
-        </div>
-      ))}
-    </div>
+    <li className={`pizza ${props.data.soldOut ? "sold-out" : ""}`}>
+      <img src={props.data.photoName} alt={props.data.name} />
+      <div>
+        <h3>{props.data.name}</h3>
+        <p>{props.data.ingredients}</p>
+        <span>{props.data.soldOut ? "SOLD OUT" : props.data.price}</span>
+      </div>
+    </li>
   );
 }
 
